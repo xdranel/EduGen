@@ -3,6 +3,8 @@ import shutil
 from pathlib import Path
 from urllib.parse import urlparse
 from urllib.request import urlretrieve
+import tarfile
+import zipfile
 
 from edugen.core.exceptions import EduGenError
 
@@ -11,7 +13,7 @@ class DatasetDownloader:
     def __init__(self, download_dir: Path) -> None:
         self.download_dir = download_dir
 
-    def download(self, url: str, checksum: str | None = None) -> Path:
+    def download(self, url: str, checksum: str | None = None, extract: bool = False) -> Path:
         self.download_dir.mkdir(parents=True, exist_ok=True)
         parsed = urlparse(url)
         filename = Path(parsed.path).name
@@ -30,7 +32,26 @@ class DatasetDownloader:
             target.unlink(missing_ok=True)
             raise EduGenError("Dataset checksum verification failed.")
 
+        if extract:
+            return self.extract(target)
+
         return target
+
+    def extract(self, archive_path: Path) -> Path:
+        extract_dir = self.download_dir / archive_path.stem
+        extract_dir.mkdir(parents=True, exist_ok=True)
+
+        if zipfile.is_zipfile(archive_path):
+            with zipfile.ZipFile(archive_path) as archive:
+                archive.extractall(extract_dir)
+            return extract_dir
+
+        if tarfile.is_tarfile(archive_path):
+            with tarfile.open(archive_path) as archive:
+                archive.extractall(extract_dir)
+            return extract_dir
+
+        raise EduGenError("Unsupported archive format.")
 
     @staticmethod
     def sha256(path: Path) -> str:

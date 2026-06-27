@@ -13,5 +13,15 @@
 | `database/` | Local SQLite files, ignored by git. |
 | `logs/` | Runtime log files, ignored by git. |
 | `outputs/` | Generated exports and reports, ignored by git. |
+| `outputs/statistics/` | Chart and CSV outputs from data analysis. |
 | `models/` | Local model files, ignored by git. |
 | `datasets/` | Raw and processed datasets, ignored by git. |
+| `datasets/raw/` | Source files before cleaning. |
+| `datasets/processed/` | Unified cleaned JSONL dataset. |
+| `datasets/train/` | Training split. |
+| `datasets/validation/` | Validation split. |
+| `datasets/test/` | Test split. |
+| `datasets/metadata/` | Dataset metadata, split metadata, validation logs, and quality reports. |
+| `datasets/cache/` | Reusable preprocessing cache. |
+| `datasets/statistics/` | Dataset-local statistics artifacts. |
+| `datasets/downloads/` | Downloaded archives and source files. |

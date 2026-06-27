@@ -6,7 +6,7 @@ EduGen AI is a university Generative AI final project built as a Python modular 
 
 ## Current Status
 
-This repository currently contains the project foundation only.
+This repository currently contains the project foundation, AI backend boundary, Streamlit frontend, and data engineering pipeline.
 
 - Streamlit application shell
 - Basic page navigation
@@ -14,6 +14,8 @@ This repository currently contains the project foundation only.
 - Logging setup
 - Validation utilities
 - SQLite initialization skeleton
+- AI prompt, inference, and dataset modules
+- Data validation, splitting, metadata, and quality reporting
 - Documentation structure
 - Minimal tests
 
@@ -21,7 +23,6 @@ Not implemented yet:
 
 - model download
 - fine-tuning
-- full dataset pipeline
 - full evaluation framework
 
 AI backend modules are present, but real local inference needs optional AI dependencies.

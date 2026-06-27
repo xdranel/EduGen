@@ -1,3 +1,4 @@
 -r requirements-ai.txt
 datasets
 peft
+matplotlib

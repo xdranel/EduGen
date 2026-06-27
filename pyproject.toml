@@ -25,6 +25,10 @@ training = [
 export = [
     "reportlab",
 ]
+data = [
+    "datasets",
+    "matplotlib",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

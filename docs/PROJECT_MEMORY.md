@@ -6,9 +6,9 @@ This file is the working memory for EduGen AI. Before starting any future task, 
 
 - Project name: EduGen AI
 - Tagline: Generate Complete Learning Materials using Open Source Generative AI
-- Repository status: Prompt 4 frontend implemented
+- Repository status: Prompt 4.5 data pipeline implemented
 - Installed by user: `streamlit`
-- Current files: project foundation, Streamlit frontend, AI backend modules, tests, docs, config, storage skeleton
+- Current files: project foundation, Streamlit frontend, AI backend modules, data pipeline modules, tests, docs, config, storage skeleton
 - Current architecture decision: Python modular monolith
 - Main app framework: Streamlit
 - AI stack direction: optional PyTorch, Hugging Face Transformers, PEFT, LoRA or QLoRA, Datasets, Accelerate
@@ -182,6 +182,8 @@ Prompt 3 implementation note: AI modules are importable without heavy dependenci
 
 Prompt 4 implementation note: PDF export is optional and requires `pip install -r requirements-export.txt`. Markdown, TXT, and HTML exports use the standard library.
 
+Prompt 4.5 implementation note: data-pipeline PNG charts require `pip install -r requirements-data.txt`; without matplotlib the pipeline still writes CSV statistics.
+
 ## Progress Log
 
 | Date | Progress |
@@ -196,6 +198,8 @@ Prompt 4 implementation note: PDF export is optional and requires `pip install -
 | 2026-06-27 | Verified AI backend with 11 unit tests, compile check, import check, and short Streamlit launch check. |
 | 2026-06-27 | Implemented Prompt 4 frontend: richer Streamlit navigation, generate form, AI backend integration, progress/status UI, output sections, history, downloads, settings, and about page. |
 | 2026-06-27 | Verified frontend with 14 unit tests, compile check, import check, and short Streamlit launch check. |
+| 2026-06-27 | Implemented Prompt 4.5 data pipeline: dataset recommendations, downloader extraction/checksum, validation, splitting, statistics, metadata, quality reports, docs, and tests. |
+| 2026-06-27 | Verified data pipeline with 19 unit tests, compile check, temporary pipeline run, and short Streamlit launch check from `.venv`. |
 
 ## Problems And Blockers
 
@@ -203,10 +207,11 @@ Prompt 4 implementation note: PDF export is optional and requires `pip install -
 | --- | --- | --- | --- |
 | 2026-06-27 | No actual app structure exists yet. | Closed | Prompt 2 foundation created. |
 | 2026-06-27 | Model choice not finalized. | Closed | Default model set to `Qwen/Qwen2.5-0.5B-Instruct`, configurable through `ModelConfig`. |
-| 2026-06-27 | Dataset choice not finalized. | Open | Select public educational/instruction datasets and document license, size, preprocessing, and split strategy. |
+| 2026-06-27 | Dataset choice not finalized. | Closed | Recommended SciQ, Dolly 15k, OpenAssistant OASST1, and OpenStax source material. |
 | 2026-06-27 | `requirements.txt` contains Streamlit and transitive dependencies only. | Closed | Added optional `requirements-ai.txt` and `requirements-training.txt`; base app remains lightweight. |
 | 2026-06-27 | PDF export dependency not installed by default. | Closed | User installed `requirements-export.txt` in `.venv`; verified `reportlab` import. |
 | 2026-06-27 | Current assistant shell cannot import `torch` or `transformers`. | Closed | Verified `.venv` can import `torch` and `transformers`; use `.venv/bin/python` or activate `.venv`. |
+| 2026-06-27 | Matplotlib is not installed in `.venv`. | Open | Run `pip install -r requirements-data.txt` when PNG statistics charts are required. |
 
 ## Decision Log
 
@@ -238,19 +243,13 @@ Prompt 4 implementation note: PDF export is optional and requires `pip install -
 
 ## Next Likely Work
 
-Next phase is Prompt #4.5: data engineering pipeline.
+Next phase is Prompt #5: evaluation framework.
 
-Prompt #4.5 should implement:
+Prompt #5 should implement:
 
-- dataset recommendations
-- dataset downloader improvements with resume/checksum/extract
-- dataset folder structure
-- validation, cleaning, preprocessing, prompt formatting
-- tokenizer length analysis
-- dataset statistics and visualizations
-- train/validation/test split
-- metadata and quality reports
-- caching
-- data pipeline tests
-
-Skip full evaluation dashboard until Prompt #5.
+- ROUGE, BLEU, BERTScore
+- latency, inference time, memory usage, CPU usage, generation speed
+- human evaluation forms and averages
+- experiment comparison across model and generation settings
+- visualization and reports under `outputs/evaluation/`
+- error analysis for repetition, hallucination indicators, incomplete answers, and missing sections

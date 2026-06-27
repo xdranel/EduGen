@@ -14,3 +14,9 @@ Optional PDF export:
 ```bash
 pip install -r requirements-export.txt
 ```
+
+Optional data-pipeline charts and Hugging Face dataset loading:
+
+```bash
+pip install -r requirements-data.txt
+```
