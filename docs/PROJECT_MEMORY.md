@@ -6,9 +6,9 @@ This file is the working memory for EduGen AI. Before starting any future task, 
 
 - Project name: EduGen AI
 - Tagline: Generate Complete Learning Materials using Open Source Generative AI
-- Repository status: Prompt 4.5 data pipeline implemented
+- Repository status: Prompt 5 evaluation framework implemented
 - Installed by user: `streamlit`
-- Current files: project foundation, Streamlit frontend, AI backend modules, data pipeline modules, tests, docs, config, storage skeleton
+- Current files: project foundation, Streamlit frontend, AI backend modules, data pipeline modules, evaluation modules, tests, docs, config, storage skeleton
 - Current architecture decision: Python modular monolith
 - Main app framework: Streamlit
 - AI stack direction: optional PyTorch, Hugging Face Transformers, PEFT, LoRA or QLoRA, Datasets, Accelerate
@@ -184,6 +184,8 @@ Prompt 4 implementation note: PDF export is optional and requires `pip install -
 
 Prompt 4.5 implementation note: data-pipeline PNG charts require `pip install -r requirements-data.txt`; without matplotlib the pipeline still writes CSV statistics.
 
+Prompt 5 implementation note: evaluation works with stdlib fallbacks. Optional richer ROUGE/BLEU/BERTScore/resource tooling is listed in `requirements-evaluation.txt`.
+
 ## Progress Log
 
 | Date | Progress |
@@ -200,6 +202,8 @@ Prompt 4.5 implementation note: data-pipeline PNG charts require `pip install -r
 | 2026-06-27 | Verified frontend with 14 unit tests, compile check, import check, and short Streamlit launch check. |
 | 2026-06-27 | Implemented Prompt 4.5 data pipeline: dataset recommendations, downloader extraction/checksum, validation, splitting, statistics, metadata, quality reports, docs, and tests. |
 | 2026-06-27 | Verified data pipeline with 19 unit tests, compile check, temporary pipeline run, and short Streamlit launch check from `.venv`. |
+| 2026-06-27 | Implemented Prompt 5 evaluation framework: ROUGE/BLEU/BERTScore fallback metrics, latency/speed/resource fields, human scoring, experiments, visualizations, error analysis, reports, docs, and tests. |
+| 2026-06-27 | Verified evaluation framework with 24 unit tests, compile check, sample report generation, and short Streamlit launch check from `.venv`. |
 
 ## Problems And Blockers
 
@@ -211,7 +215,8 @@ Prompt 4.5 implementation note: data-pipeline PNG charts require `pip install -r
 | 2026-06-27 | `requirements.txt` contains Streamlit and transitive dependencies only. | Closed | Added optional `requirements-ai.txt` and `requirements-training.txt`; base app remains lightweight. |
 | 2026-06-27 | PDF export dependency not installed by default. | Closed | User installed `requirements-export.txt` in `.venv`; verified `reportlab` import. |
 | 2026-06-27 | Current assistant shell cannot import `torch` or `transformers`. | Closed | Verified `.venv` can import `torch` and `transformers`; use `.venv/bin/python` or activate `.venv`. |
-| 2026-06-27 | Matplotlib is not installed in `.venv`. | Open | Run `pip install -r requirements-data.txt` when PNG statistics charts are required. |
+| 2026-06-27 | Matplotlib is not installed in `.venv`. | Closed | User installed `requirements-data.txt`; verified matplotlib import. |
+| 2026-06-27 | Full external evaluation metrics not installed by default. | Open | Run `pip install -r requirements-evaluation.txt` only if real `bert-score`, `rouge-score`, `sacrebleu`, and `psutil` are required. |
 
 ## Decision Log
 
@@ -239,17 +244,18 @@ Prompt 4.5 implementation note: data-pipeline PNG charts require `pip install -r
 - Fine-tuning
 - Real model inference run on downloaded weights
 - Full dataset download/preprocessing
-- Full evaluation dashboard
+- Full evaluation dashboard UI
 
 ## Next Likely Work
 
-Next phase is Prompt #5: evaluation framework.
+Next phase is Prompt #6: deployment, final documentation, demo polish, or project packaging.
 
-Prompt #5 should implement:
+Prompt #6 should implement:
 
-- ROUGE, BLEU, BERTScore
-- latency, inference time, memory usage, CPU usage, generation speed
-- human evaluation forms and averages
-- experiment comparison across model and generation settings
-- visualization and reports under `outputs/evaluation/`
-- error analysis for repetition, hallucination indicators, incomplete answers, and missing sections
+- deployment instructions
+- final README cleanup
+- demo workflow
+- reproducibility checklist
+- presentation/report assets
+- optional evaluation dashboard UI
+- final dependency lock and sanity test

@@ -20,3 +20,9 @@ Optional data-pipeline charts and Hugging Face dataset loading:
 ```bash
 pip install -r requirements-data.txt
 ```
+
+Optional richer evaluation metrics:
+
+```bash
+pip install -r requirements-evaluation.txt
+```

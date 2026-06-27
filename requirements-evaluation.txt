@@ -1,0 +1,5 @@
+bert-score
+rouge-score
+sacrebleu
+psutil
+matplotlib

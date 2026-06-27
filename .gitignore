@@ -12,7 +12,11 @@ logs/*
 outputs/*
 !outputs/README.md
 !outputs/statistics/
+outputs/statistics/*
 !outputs/statistics/.gitkeep
+!outputs/evaluation/
+outputs/evaluation/*
+!outputs/evaluation/.gitkeep
 models/*
 !models/README.md
 datasets/*

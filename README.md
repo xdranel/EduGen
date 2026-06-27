@@ -16,6 +16,7 @@ This repository currently contains the project foundation, AI backend boundary, 
 - SQLite initialization skeleton
 - AI prompt, inference, and dataset modules
 - Data validation, splitting, metadata, and quality reporting
+- Evaluation metrics, reports, experiments, and human scoring helpers
 - Documentation structure
 - Minimal tests
 
@@ -23,7 +24,7 @@ Not implemented yet:
 
 - model download
 - fine-tuning
-- full evaluation framework
+
 
 AI backend modules are present, but real local inference needs optional AI dependencies.
 
@@ -58,6 +59,12 @@ PDF export is optional:
 
 ```bash
 pip install -r requirements-export.txt
+```
+
+Optional richer evaluation dependencies:
+
+```bash
+pip install -r requirements-evaluation.txt
 ```
 
 ## Architecture

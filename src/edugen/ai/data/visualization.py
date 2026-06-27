@@ -1,4 +1,5 @@
 import csv
+import os
 from pathlib import Path
 
 
@@ -12,6 +13,7 @@ def write_length_distribution(lengths: list[int], output_dir: Path) -> None:
             writer.writerow([index, length])
 
     try:
+        os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib")
         import matplotlib.pyplot as plt
     except ImportError:
         return
