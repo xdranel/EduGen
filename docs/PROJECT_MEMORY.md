@@ -205,8 +205,8 @@ Prompt 4 implementation note: PDF export is optional and requires `pip install -
 | 2026-06-27 | Model choice not finalized. | Closed | Default model set to `Qwen/Qwen2.5-0.5B-Instruct`, configurable through `ModelConfig`. |
 | 2026-06-27 | Dataset choice not finalized. | Open | Select public educational/instruction datasets and document license, size, preprocessing, and split strategy. |
 | 2026-06-27 | `requirements.txt` contains Streamlit and transitive dependencies only. | Closed | Added optional `requirements-ai.txt` and `requirements-training.txt`; base app remains lightweight. |
-| 2026-06-27 | PDF export dependency not installed by default. | Open | Run `pip install -r requirements-export.txt` when PDF export is needed. |
-| 2026-06-27 | Current assistant shell cannot import `torch` or `transformers`. | Open | Ensure `pip install -r requirements-ai.txt` was run inside the same virtual environment used to launch Streamlit. |
+| 2026-06-27 | PDF export dependency not installed by default. | Closed | User installed `requirements-export.txt` in `.venv`; verified `reportlab` import. |
+| 2026-06-27 | Current assistant shell cannot import `torch` or `transformers`. | Closed | Verified `.venv` can import `torch` and `transformers`; use `.venv/bin/python` or activate `.venv`. |
 
 ## Decision Log
 
