@@ -32,12 +32,23 @@ class FakeTokenizer:
 
 
 class FakeTensor:
-    def __init__(self) -> None:
+    def __init__(self, values: list[int] | None = None) -> None:
         self.moved_to = None
+        self.values = values or [1, 2, 3]
 
     def to(self, device: str) -> "FakeTensor":
         self.moved_to = device
         return self
+
+    @property
+    def shape(self) -> tuple[int, int]:
+        return (1, len(self.values))
+
+    def __getitem__(self, item):
+        if isinstance(item, tuple):
+            _, token_slice = item
+            return self.values[token_slice]
+        return self.values[item]
 
 
 class FakeBatch(dict):
@@ -46,11 +57,23 @@ class FakeBatch(dict):
 
 
 class FakeTorchTokenizer:
+    def __init__(self) -> None:
+        self.chat_messages = None
+
+    def apply_chat_template(
+        self,
+        messages: list[dict[str, str]],
+        tokenize: bool,
+        add_generation_prompt: bool,
+    ) -> str:
+        self.chat_messages = messages
+        return "chat formatted prompt"
+
     def __call__(self, prompt: str, return_tensors: str) -> FakeBatch:
         return FakeBatch()
 
     def decode(self, output: object, skip_special_tokens: bool = True) -> str:
-        return "decoded"
+        return " ".join(str(token) for token in output)
 
 
 class FakeCudaModel:
@@ -61,7 +84,7 @@ class FakeCudaModel:
 
     def generate(self, **inputs: object) -> list[str]:
         self.received_inputs = inputs
-        return ["tokens"]
+        return [FakeTensor([1, 2, 3, 8, 9])]
 
 
 class FakeModelLoader:
@@ -73,7 +96,8 @@ class FakeModelLoader:
 
 
 class FakeTokenizerManager:
-    tokenizer = FakeTorchTokenizer()
+    def __init__(self) -> None:
+        self.tokenizer = FakeTorchTokenizer()
 
 
 class AiPipelineTest(unittest.TestCase):
@@ -158,8 +182,29 @@ class AiPipelineTest(unittest.TestCase):
 
         result = manager.generate("Explain AI", GenerationConfig(max_new_tokens=4))
 
-        self.assertEqual(result, "decoded")
+        self.assertEqual(result, "8 9")
         self.assertEqual(model.received_inputs["input_ids"].moved_to, "cuda:0")
+
+    def test_inference_manager_uses_chat_template_when_available(self) -> None:
+        tokenizer_manager = FakeTokenizerManager()
+        manager = InferenceManager(
+            tokenizer_manager=tokenizer_manager,
+            model_loader=FakeModelLoader(FakeCudaModel()),
+        )
+
+        manager.generate("Explain AI", GenerationConfig(max_new_tokens=4))
+
+        self.assertEqual(tokenizer_manager.tokenizer.chat_messages[0]["role"], "user")
+
+    def test_inference_manager_decodes_only_new_tokens(self) -> None:
+        manager = InferenceManager(
+            tokenizer_manager=FakeTokenizerManager(),
+            model_loader=FakeModelLoader(FakeCudaModel()),
+        )
+
+        result = manager.generate("Explain AI", GenerationConfig(max_new_tokens=4))
+
+        self.assertEqual(result, "8 9")
 
     def test_dataset_downloader_copies_file_urls(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

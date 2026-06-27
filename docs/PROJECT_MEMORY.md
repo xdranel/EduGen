@@ -208,6 +208,7 @@ Prompt 5 implementation note: evaluation works with stdlib fallbacks. Optional r
 | 2026-06-27 | Verified final polish with 26 unit tests, compile check, smoke script, and short Streamlit launch check from `.venv`. |
 | 2026-06-27 | Updated final installation, startup, development, deployment, demo, reproducibility, and folder documentation. |
 | 2026-06-27 | Fixed CUDA/CPU inference mismatch by moving tokenizer tensors to the loaded model device before generation. |
+| 2026-06-27 | Improved generation quality controls: use tokenizer chat template, decode only new tokens, lower default randomness, and tighten educational prompt rules. |
 
 ## Problems And Blockers
 
@@ -222,6 +223,7 @@ Prompt 5 implementation note: evaluation works with stdlib fallbacks. Optional r
 | 2026-06-27 | Matplotlib is not installed in `.venv`. | Closed | User installed `requirements-data.txt`; verified matplotlib import. |
 | 2026-06-27 | Full external evaluation metrics not installed by default. | Closed | User installed `requirements-evaluation.txt`; verified `bert_score`, `rouge_score`, `sacrebleu`, and `psutil` imports. |
 | 2026-06-27 | Generation failed when model was on CUDA and tokenized inputs were on CPU. | Closed | `InferenceManager` now moves tensor-like inputs to the model device before `model.generate()`. |
+| 2026-06-27 | Generated PDFs sometimes contained prompt echo and random malformed quiz text. | Closed | Inference now uses chat formatting and strips prompt tokens from decoded output; UI defaults changed to temperature 0.4, top-p 0.85, top-k 40. |
 
 ## Decision Log
 

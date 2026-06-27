@@ -27,10 +27,8 @@ class InferenceManager:
         tokenizer = self.tokenizer_manager.tokenizer
         model = self.model_loader.load()
 
-        inputs = self._move_inputs_to_model_device(
-            tokenizer(prompt, return_tensors="pt"),
-            model,
-        )
+        formatted_prompt = self._format_prompt(tokenizer, prompt)
+        inputs = self._move_inputs_to_model_device(tokenizer(formatted_prompt, return_tensors="pt"), model)
         try:
             outputs = model.generate(
                 **inputs,
@@ -45,7 +43,23 @@ class InferenceManager:
             raise EduGenError(f"Generation failed: {error}") from error
 
         _ = time.perf_counter() - started_at
-        return tokenizer.decode(outputs[0], skip_special_tokens=True)
+        return tokenizer.decode(self._new_tokens(outputs[0], inputs), skip_special_tokens=True).strip()
+
+    def _format_prompt(self, tokenizer, prompt: str) -> str:
+        if hasattr(tokenizer, "apply_chat_template"):
+            return tokenizer.apply_chat_template(
+                [{"role": "user", "content": prompt}],
+                tokenize=False,
+                add_generation_prompt=True,
+            )
+        return prompt
+
+    def _new_tokens(self, output, inputs):
+        input_ids = inputs.get("input_ids")
+        if input_ids is None or not hasattr(input_ids, "shape"):
+            return output
+        prompt_length = input_ids.shape[-1]
+        return output[prompt_length:]
 
     def _move_inputs_to_model_device(self, inputs, model):
         device = self._model_device(model)

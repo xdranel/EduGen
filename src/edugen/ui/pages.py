@@ -60,9 +60,9 @@ def _generate_page(settings: AppSettings) -> None:
         quiz_count = st.number_input("Quiz Count", min_value=1, max_value=20, value=5)
 
         with st.expander("Advanced Settings"):
-            temperature = st.slider("Temperature", 0.0, 2.0, 0.7, 0.1)
-            top_p = st.slider("Top-P", 0.1, 1.0, 0.9, 0.05)
-            top_k = st.number_input("Top-K", min_value=1, max_value=200, value=50)
+            temperature = st.slider("Temperature", 0.0, 1.2, 0.4, 0.1)
+            top_p = st.slider("Top-P", 0.1, 1.0, 0.85, 0.05)
+            top_k = st.number_input("Top-K", min_value=1, max_value=200, value=40)
             max_new_tokens = st.number_input("Maximum Tokens", min_value=128, max_value=4096, value=_tokens_for_length(output_length))
             seed = st.number_input("Seed", min_value=0, max_value=999999, value=42)
 
@@ -262,4 +262,4 @@ def _render_quiz(body: str) -> None:
 
 
 def _tokens_for_length(output_length: str) -> int:
-    return {"Short": 700, "Medium": 1200, "Long": 2200}[output_length]
+    return {"Short": 1000, "Medium": 1800, "Long": 3000}[output_length]

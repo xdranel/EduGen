@@ -15,10 +15,10 @@ class ModelConfig:
 
 @dataclass(frozen=True)
 class GenerationConfig:
-    temperature: float = 0.7
-    top_p: float = 0.9
-    top_k: int = 50
-    max_new_tokens: int = 1200
+    temperature: float = 0.4
+    top_p: float = 0.85
+    top_k: int = 40
+    max_new_tokens: int = 1600
     repetition_penalty: float = 1.1
     do_sample: bool = True
     seed: int | None = 42

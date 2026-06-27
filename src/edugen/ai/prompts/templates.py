@@ -27,6 +27,11 @@ Rules:
 - Keep explanations factual and student-friendly.
 - Do not mention proprietary APIs.
 - Use open educational references where possible.
+- Do not copy or repeat this prompt.
+- Do not output markdown control tokens, template labels, or malformed question syntax.
+- If quiz count is {quiz_count}, create exactly {quiz_count} multiple choice questions.
+- Each multiple choice question must have options A, B, C, D and one correct answer in the Answer Key.
+- Keep each section concise and complete.
 """
 
 SECTION_TEMPLATES = {
