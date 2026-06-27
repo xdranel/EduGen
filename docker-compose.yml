@@ -1,0 +1,12 @@
+services:
+  edugen:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      EDUGEN_ENV: development
+      EDUGEN_LOG_LEVEL: INFO
+      PYTHONPATH: /app/src
+    volumes:
+      - ./database:/app/database
+      - ./logs:/app/logs

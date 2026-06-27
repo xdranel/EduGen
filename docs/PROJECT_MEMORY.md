@@ -6,9 +6,9 @@ This file is the working memory for EduGen AI. Before starting any future task, 
 
 - Project name: EduGen AI
 - Tagline: Generate Complete Learning Materials using Open Source Generative AI
-- Repository status: empty starter workspace, no application code yet
+- Repository status: Prompt 2 foundation implemented
 - Installed by user: `streamlit`
-- Current files: `requirements.txt`, `docs/PROJECT_MEMORY.md`
+- Current files: project foundation, Streamlit app shell, tests, docs, config, storage skeleton
 - Current architecture decision: Python modular monolith
 - Main app framework: Streamlit
 - AI stack direction: PyTorch, Hugging Face Transformers, PEFT, LoRA or QLoRA, Datasets, Accelerate
@@ -186,12 +186,14 @@ Prompt 5 evaluation should save artifacts under `outputs/evaluation/`.
 | 2026-06-27 | Created project memory document for tracking decisions, progress, blockers, and future prompt filtering. |
 | 2026-06-27 | Read Prompt 1, Prompt 2, Prompt 3, Prompt 4, Prompt 4.5, and Prompt 5 from `/home/xdranel/Code/Prompt`. |
 | 2026-06-27 | User initialized project preparation and generated `requirements.txt` after installing Streamlit. |
+| 2026-06-27 | Implemented Prompt 2 foundation: repository metadata, Streamlit shell, config, logging, validation, SQLite skeleton, docs, and tests. |
+| 2026-06-27 | Verified foundation with unit tests, compile check, import check, and short Streamlit launch check. |
 
 ## Problems And Blockers
 
 | Date | Problem | Status | Future Fix |
 | --- | --- | --- | --- |
-| 2026-06-27 | No actual app structure exists yet. | Open | Create minimal Streamlit project scaffold when requested. |
+| 2026-06-27 | No actual app structure exists yet. | Closed | Prompt 2 foundation created. |
 | 2026-06-27 | Model choice not finalized. | Open | Compare TinyLlama, SmolLM2, Phi-2, Qwen2.5, Gemma, and Mistral Small before training/inference work. |
 | 2026-06-27 | Dataset choice not finalized. | Open | Select public educational/instruction datasets and document license, size, preprocessing, and split strategy. |
 | 2026-06-27 | `requirements.txt` contains Streamlit and transitive dependencies only. | Open | Add AI/data/evaluation dependencies only when their phase needs them. |
@@ -205,6 +207,7 @@ Prompt 5 evaluation should save artifacts under `outputs/evaluation/`.
 | 2026-06-27 | Use modular monolith architecture. | Professional enough without microservice overhead. |
 | 2026-06-27 | Avoid Spring Boot for the first version. | Adds a second backend stack without improving the AI core. |
 | 2026-06-27 | Keep dependencies phase-based. | Heavy AI packages are version-sensitive and should not be installed before model/hardware choices are clear. |
+| 2026-06-27 | Use explicit unittest discovery. | `python -m unittest` ran zero tests in this environment; use `python -m unittest discover -s tests -p 'test_*.py'`. |
 
 ## Deferred Ideas
 
@@ -224,21 +227,20 @@ Prompt 5 evaluation should save artifacts under `outputs/evaluation/`.
 
 ## Next Likely Work
 
-Prompt #2 should implement the project foundation:
+Next phase is Prompt #3: AI backend pipeline.
 
-- `app/streamlit_app.py`
-- `src/edugen/` package
-- basic configuration file
+Prompt #3 should implement:
+
+- model and tokenizer loading
+- generation configuration
+- lazy loading and cache
 - prompt templates
-- placeholder generation service
-- export utilities
-- SQLite history skeleton only if needed
-- `requirements.txt`
-- `README.md`
-- `.gitignore`
-- `pyproject.toml`
-- `environment.yml`
-- basic tests
-- basic docs
+- input validation and prompt formatting
+- output cleaning and formatting
+- configurable generation service
+- dataset manager skeleton
+- preprocessing utilities
+- optional training hooks that do not block local inference
+- AI backend tests
 
-Skip real fine-tuning until the model and dataset decisions are documented.
+Skip full UI redesign until Prompt #4. Skip full dataset engineering until Prompt #4.5.
