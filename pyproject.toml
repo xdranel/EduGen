@@ -22,6 +22,9 @@ training = [
     "datasets",
     "peft",
 ]
+export = [
+    "reportlab",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

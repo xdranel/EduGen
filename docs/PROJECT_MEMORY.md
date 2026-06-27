@@ -6,9 +6,9 @@ This file is the working memory for EduGen AI. Before starting any future task, 
 
 - Project name: EduGen AI
 - Tagline: Generate Complete Learning Materials using Open Source Generative AI
-- Repository status: Prompt 3 AI backend implemented
+- Repository status: Prompt 4 frontend implemented
 - Installed by user: `streamlit`
-- Current files: project foundation, Streamlit app shell, AI backend modules, tests, docs, config, storage skeleton
+- Current files: project foundation, Streamlit frontend, AI backend modules, tests, docs, config, storage skeleton
 - Current architecture decision: Python modular monolith
 - Main app framework: Streamlit
 - AI stack direction: optional PyTorch, Hugging Face Transformers, PEFT, LoRA or QLoRA, Datasets, Accelerate
@@ -180,6 +180,8 @@ Prompt 5 evaluation should save artifacts under `outputs/evaluation/`.
 
 Prompt 3 implementation note: AI modules are importable without heavy dependencies. Real local model inference requires `pip install -r requirements-ai.txt`. Training requires `pip install -r requirements-training.txt`.
 
+Prompt 4 implementation note: PDF export is optional and requires `pip install -r requirements-export.txt`. Markdown, TXT, and HTML exports use the standard library.
+
 ## Progress Log
 
 | Date | Progress |
@@ -192,6 +194,8 @@ Prompt 3 implementation note: AI modules are importable without heavy dependenci
 | 2026-06-27 | Verified foundation with unit tests, compile check, import check, and short Streamlit launch check. |
 | 2026-06-27 | Implemented Prompt 3 AI backend: model config/registry, prompt builder, preprocessing, dataset manager/downloader, tokenizer wrapper, model loader, inference service, lightweight metrics, training hooks, docs, and tests. |
 | 2026-06-27 | Verified AI backend with 11 unit tests, compile check, import check, and short Streamlit launch check. |
+| 2026-06-27 | Implemented Prompt 4 frontend: richer Streamlit navigation, generate form, AI backend integration, progress/status UI, output sections, history, downloads, settings, and about page. |
+| 2026-06-27 | Verified frontend with 14 unit tests, compile check, import check, and short Streamlit launch check. |
 
 ## Problems And Blockers
 
@@ -201,6 +205,8 @@ Prompt 3 implementation note: AI modules are importable without heavy dependenci
 | 2026-06-27 | Model choice not finalized. | Closed | Default model set to `Qwen/Qwen2.5-0.5B-Instruct`, configurable through `ModelConfig`. |
 | 2026-06-27 | Dataset choice not finalized. | Open | Select public educational/instruction datasets and document license, size, preprocessing, and split strategy. |
 | 2026-06-27 | `requirements.txt` contains Streamlit and transitive dependencies only. | Closed | Added optional `requirements-ai.txt` and `requirements-training.txt`; base app remains lightweight. |
+| 2026-06-27 | PDF export dependency not installed by default. | Open | Run `pip install -r requirements-export.txt` when PDF export is needed. |
+| 2026-06-27 | Current assistant shell cannot import `torch` or `transformers`. | Open | Ensure `pip install -r requirements-ai.txt` was run inside the same virtual environment used to launch Streamlit. |
 
 ## Decision Log
 
@@ -232,17 +238,19 @@ Prompt 3 implementation note: AI modules are importable without heavy dependenci
 
 ## Next Likely Work
 
-Next phase is Prompt #4: Streamlit frontend integration.
+Next phase is Prompt #4.5: data engineering pipeline.
 
-Prompt #4 should implement:
+Prompt #4.5 should implement:
 
-- multi-page Streamlit frontend improvements
-- AI backend integration from the Generate page
-- progress/status UI
-- structured generated output cards
-- flashcard and quiz display components
-- history workflows
-- downloads UI
-- settings UI connected to generation config
+- dataset recommendations
+- dataset downloader improvements with resume/checksum/extract
+- dataset folder structure
+- validation, cleaning, preprocessing, prompt formatting
+- tokenizer length analysis
+- dataset statistics and visualizations
+- train/validation/test split
+- metadata and quality reports
+- caching
+- data pipeline tests
 
-Skip full dataset engineering until Prompt #4.5. Skip full evaluation dashboard until Prompt #5.
+Skip full evaluation dashboard until Prompt #5.

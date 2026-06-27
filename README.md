@@ -53,6 +53,12 @@ Training dependencies are deferred:
 pip install -r requirements-training.txt
 ```
 
+PDF export is optional:
+
+```bash
+pip install -r requirements-export.txt
+```
+
 ## Architecture
 
 EduGen AI uses a modular monolith:
