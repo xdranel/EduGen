@@ -6,12 +6,12 @@ This file is the working memory for EduGen AI. Before starting any future task, 
 
 - Project name: EduGen AI
 - Tagline: Generate Complete Learning Materials using Open Source Generative AI
-- Repository status: Prompt 2 foundation implemented
+- Repository status: Prompt 3 AI backend implemented
 - Installed by user: `streamlit`
-- Current files: project foundation, Streamlit app shell, tests, docs, config, storage skeleton
+- Current files: project foundation, Streamlit app shell, AI backend modules, tests, docs, config, storage skeleton
 - Current architecture decision: Python modular monolith
 - Main app framework: Streamlit
-- AI stack direction: PyTorch, Hugging Face Transformers, PEFT, LoRA or QLoRA, Datasets, Accelerate
+- AI stack direction: optional PyTorch, Hugging Face Transformers, PEFT, LoRA or QLoRA, Datasets, Accelerate
 - Storage direction: SQLite when history/settings are implemented
 
 ## Core Requirement Summary
@@ -178,6 +178,8 @@ Prompt 4.5 data pipeline may be more logically implemented before Prompt 3 train
 
 Prompt 5 evaluation should save artifacts under `outputs/evaluation/`.
 
+Prompt 3 implementation note: AI modules are importable without heavy dependencies. Real local model inference requires `pip install -r requirements-ai.txt`. Training requires `pip install -r requirements-training.txt`.
+
 ## Progress Log
 
 | Date | Progress |
@@ -188,15 +190,17 @@ Prompt 5 evaluation should save artifacts under `outputs/evaluation/`.
 | 2026-06-27 | User initialized project preparation and generated `requirements.txt` after installing Streamlit. |
 | 2026-06-27 | Implemented Prompt 2 foundation: repository metadata, Streamlit shell, config, logging, validation, SQLite skeleton, docs, and tests. |
 | 2026-06-27 | Verified foundation with unit tests, compile check, import check, and short Streamlit launch check. |
+| 2026-06-27 | Implemented Prompt 3 AI backend: model config/registry, prompt builder, preprocessing, dataset manager/downloader, tokenizer wrapper, model loader, inference service, lightweight metrics, training hooks, docs, and tests. |
+| 2026-06-27 | Verified AI backend with 11 unit tests, compile check, import check, and short Streamlit launch check. |
 
 ## Problems And Blockers
 
 | Date | Problem | Status | Future Fix |
 | --- | --- | --- | --- |
 | 2026-06-27 | No actual app structure exists yet. | Closed | Prompt 2 foundation created. |
-| 2026-06-27 | Model choice not finalized. | Open | Compare TinyLlama, SmolLM2, Phi-2, Qwen2.5, Gemma, and Mistral Small before training/inference work. |
+| 2026-06-27 | Model choice not finalized. | Closed | Default model set to `Qwen/Qwen2.5-0.5B-Instruct`, configurable through `ModelConfig`. |
 | 2026-06-27 | Dataset choice not finalized. | Open | Select public educational/instruction datasets and document license, size, preprocessing, and split strategy. |
-| 2026-06-27 | `requirements.txt` contains Streamlit and transitive dependencies only. | Open | Add AI/data/evaluation dependencies only when their phase needs them. |
+| 2026-06-27 | `requirements.txt` contains Streamlit and transitive dependencies only. | Closed | Added optional `requirements-ai.txt` and `requirements-training.txt`; base app remains lightweight. |
 
 ## Decision Log
 
@@ -208,6 +212,7 @@ Prompt 5 evaluation should save artifacts under `outputs/evaluation/`.
 | 2026-06-27 | Avoid Spring Boot for the first version. | Adds a second backend stack without improving the AI core. |
 | 2026-06-27 | Keep dependencies phase-based. | Heavy AI packages are version-sensitive and should not be installed before model/hardware choices are clear. |
 | 2026-06-27 | Use explicit unittest discovery. | `python -m unittest` ran zero tests in this environment; use `python -m unittest discover -s tests -p 'test_*.py'`. |
+| 2026-06-27 | Default to `Qwen/Qwen2.5-0.5B-Instruct`. | Small, instruction-tuned, Hugging Face Transformers-compatible, Apache-2.0, and practical for student hardware. |
 
 ## Deferred Ideas
 
@@ -220,27 +225,24 @@ Prompt 5 evaluation should save artifacts under `outputs/evaluation/`.
 - Image generation
 - Mobile app
 - Deployment automation beyond the first local/demo version
-- Real model inference
 - Fine-tuning
-- Dataset download/preprocessing
+- Real model inference run on downloaded weights
+- Full dataset download/preprocessing
 - Full evaluation dashboard
 
 ## Next Likely Work
 
-Next phase is Prompt #3: AI backend pipeline.
+Next phase is Prompt #4: Streamlit frontend integration.
 
-Prompt #3 should implement:
+Prompt #4 should implement:
 
-- model and tokenizer loading
-- generation configuration
-- lazy loading and cache
-- prompt templates
-- input validation and prompt formatting
-- output cleaning and formatting
-- configurable generation service
-- dataset manager skeleton
-- preprocessing utilities
-- optional training hooks that do not block local inference
-- AI backend tests
+- multi-page Streamlit frontend improvements
+- AI backend integration from the Generate page
+- progress/status UI
+- structured generated output cards
+- flashcard and quiz display components
+- history workflows
+- downloads UI
+- settings UI connected to generation config
 
-Skip full UI redesign until Prompt #4. Skip full dataset engineering until Prompt #4.5.
+Skip full dataset engineering until Prompt #4.5. Skip full evaluation dashboard until Prompt #5.

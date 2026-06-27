@@ -7,7 +7,21 @@ name = "edugen-ai"
 version = "0.1.0"
 description = "Open-source AI study assistant for generating educational materials."
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "streamlit",
+]
+
+[project.optional-dependencies]
+ai = [
+    "torch",
+    "transformers",
+    "sentencepiece",
+    "accelerate",
+]
+training = [
+    "datasets",
+    "peft",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

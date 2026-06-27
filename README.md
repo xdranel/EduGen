@@ -19,11 +19,12 @@ This repository currently contains the project foundation only.
 
 Not implemented yet:
 
-- real AI inference
 - model download
 - fine-tuning
-- dataset pipeline
-- evaluation framework
+- full dataset pipeline
+- full evaluation framework
+
+AI backend modules are present, but real local inference needs optional AI dependencies.
 
 ## Quick Start
 
@@ -38,6 +39,18 @@ PYTHONPATH=src streamlit run app/streamlit_app.py
 
 ```bash
 PYTHONPATH=src python -m unittest discover -s tests -p 'test_*.py'
+```
+
+## Optional AI Dependencies
+
+```bash
+pip install -r requirements-ai.txt
+```
+
+Training dependencies are deferred:
+
+```bash
+pip install -r requirements-training.txt
 ```
 
 ## Architecture
