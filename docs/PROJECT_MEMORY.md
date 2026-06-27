@@ -6,7 +6,7 @@ This file is the working memory for EduGen AI. Before starting any future task, 
 
 - Project name: EduGen AI
 - Tagline: Generate Complete Learning Materials using Open Source Generative AI
-- Repository status: Prompt 5 evaluation framework implemented
+- Repository status: Prompt 6 final polish implemented
 - Installed by user: `streamlit`
 - Current files: project foundation, Streamlit frontend, AI backend modules, data pipeline modules, evaluation modules, tests, docs, config, storage skeleton
 - Current architecture decision: Python modular monolith
@@ -204,6 +204,8 @@ Prompt 5 implementation note: evaluation works with stdlib fallbacks. Optional r
 | 2026-06-27 | Verified data pipeline with 19 unit tests, compile check, temporary pipeline run, and short Streamlit launch check from `.venv`. |
 | 2026-06-27 | Implemented Prompt 5 evaluation framework: ROUGE/BLEU/BERTScore fallback metrics, latency/speed/resource fields, human scoring, experiments, visualizations, error analysis, reports, docs, and tests. |
 | 2026-06-27 | Verified evaluation framework with 24 unit tests, compile check, sample report generation, and short Streamlit launch check from `.venv`. |
+| 2026-06-27 | Implemented Prompt 6 final polish: deployment docs, demo workflow, reproducibility checklist, smoke script, README links, and smoke tests. |
+| 2026-06-27 | Verified final polish with 26 unit tests, compile check, smoke script, and short Streamlit launch check from `.venv`. |
 
 ## Problems And Blockers
 
@@ -216,7 +218,7 @@ Prompt 5 implementation note: evaluation works with stdlib fallbacks. Optional r
 | 2026-06-27 | PDF export dependency not installed by default. | Closed | User installed `requirements-export.txt` in `.venv`; verified `reportlab` import. |
 | 2026-06-27 | Current assistant shell cannot import `torch` or `transformers`. | Closed | Verified `.venv` can import `torch` and `transformers`; use `.venv/bin/python` or activate `.venv`. |
 | 2026-06-27 | Matplotlib is not installed in `.venv`. | Closed | User installed `requirements-data.txt`; verified matplotlib import. |
-| 2026-06-27 | Full external evaluation metrics not installed by default. | Open | Run `pip install -r requirements-evaluation.txt` only if real `bert-score`, `rouge-score`, `sacrebleu`, and `psutil` are required. |
+| 2026-06-27 | Full external evaluation metrics not installed by default. | Closed | User installed `requirements-evaluation.txt`; verified `bert_score`, `rouge_score`, `sacrebleu`, and `psutil` imports. |
 
 ## Decision Log
 
@@ -250,12 +252,16 @@ Prompt 5 implementation note: evaluation works with stdlib fallbacks. Optional r
 
 Next phase is Prompt #6: deployment, final documentation, demo polish, or project packaging.
 
-Prompt #6 should implement:
+Prompt #6 implemented:
 
 - deployment instructions
 - final README cleanup
 - demo workflow
 - reproducibility checklist
+- final smoke check
+
+Remaining optional future work:
+
 - presentation/report assets
 - optional evaluation dashboard UI
-- final dependency lock and sanity test
+- real model generation benchmark after model weights are downloaded

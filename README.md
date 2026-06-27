@@ -37,6 +37,12 @@ pip install -r requirements.txt
 PYTHONPATH=src streamlit run app/streamlit_app.py
 ```
 
+## Smoke Check
+
+```bash
+PYTHONPATH=src python scripts/smoke_check.py
+```
+
 ## Run Tests
 
 ```bash
@@ -83,3 +89,12 @@ tests/               minimal runnable checks
 ```
 
 See [PROJECT_MEMORY.md](docs/PROJECT_MEMORY.md) before starting future work.
+
+Useful docs:
+
+- [Deployment](docs/DEPLOYMENT.md)
+- [Demo Workflow](docs/DEMO_WORKFLOW.md)
+- [Reproducibility](docs/REPRODUCIBILITY.md)
+- [AI Pipeline](docs/AI_PIPELINE.md)
+- [Data Pipeline](docs/DATA_PIPELINE.md)
+- [Evaluation](docs/EVALUATION.md)
