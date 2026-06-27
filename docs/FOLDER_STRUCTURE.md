@@ -5,11 +5,14 @@
 | `app/` | Streamlit entrypoint. |
 | `src/edugen/config/` | Settings, constants, and logging. |
 | `src/edugen/core/` | Validation, exceptions, and future business rules. |
+| `src/edugen/ai/` | Open-source AI pipeline, data pipeline, training hooks, and evaluation framework. |
 | `src/edugen/ui/` | Streamlit page rendering. |
 | `src/edugen/storage/` | SQLite connection and repositories. |
+| `src/edugen/exports/` | Markdown, TXT, HTML, and optional PDF export helpers. |
 | `src/edugen/utils/` | Small reusable helpers. |
+| `scripts/` | Local maintenance and smoke-check scripts. |
 | `docs/` | Architecture notes and project memory. |
-| `tests/` | Runnable checks for foundation behavior. |
+| `tests/` | Runnable checks for foundation, AI pipeline, frontend support, data pipeline, evaluation, and smoke behavior. |
 | `database/` | Local SQLite files, ignored by git. |
 | `logs/` | Runtime log files, ignored by git. |
 | `outputs/` | Generated exports and reports, ignored by git. |

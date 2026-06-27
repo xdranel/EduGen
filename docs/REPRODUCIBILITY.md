@@ -13,6 +13,11 @@
 
 ```bash
 source .venv/bin/activate
+pip install -r requirements.txt
+pip install -r requirements-ai.txt
+pip install -r requirements-data.txt
+pip install -r requirements-export.txt
+pip install -r requirements-evaluation.txt
 PYTHONPATH=src python scripts/smoke_check.py
 PYTHONPATH=src streamlit run app/streamlit_app.py
 ```
@@ -34,3 +39,11 @@ PYTHONPATH=src streamlit run app/streamlit_app.py
 - Runtime logs: `logs/`
 
 Generated artifacts are ignored by git.
+
+## Expected Smoke Result
+
+The smoke check should end with:
+
+```text
+SMOKE CHECK COMPLETE
+```

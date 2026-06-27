@@ -6,6 +6,11 @@ EduGen AI is a Streamlit modular monolith. The simplest demo deployment is local
 
 ```bash
 source .venv/bin/activate
+pip install -r requirements.txt
+pip install -r requirements-ai.txt
+pip install -r requirements-data.txt
+pip install -r requirements-export.txt
+pip install -r requirements-evaluation.txt
 PYTHONPATH=src streamlit run app/streamlit_app.py
 ```
 
@@ -38,3 +43,4 @@ EDUGEN_DATABASE_PATH=database/edugen.db
 - First local model generation may download model weights.
 - Keep `models/`, `datasets/`, `outputs/`, `database/`, and `logs/` out of git.
 - Use CPU for demo safety unless CUDA is already working.
+- Run `PYTHONPATH=src python scripts/smoke_check.py` before presenting.

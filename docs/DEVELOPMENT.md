@@ -10,6 +10,29 @@ Before starting work:
 Useful commands:
 
 ```bash
+source .venv/bin/activate
 PYTHONPATH=src python -m unittest discover -s tests -p 'test_*.py'
+PYTHONPATH=src python scripts/smoke_check.py
+PYTHONPATH=src python -m compileall app src tests scripts
 PYTHONPATH=src streamlit run app/streamlit_app.py
+```
+
+Data pipeline:
+
+```bash
+PYTHONPATH=src python -m edugen.ai.data.run_pipeline
+```
+
+Evaluation report:
+
+```bash
+PYTHONPATH=src python -m edugen.ai.evaluation.run_evaluation
+```
+
+Commit after each stable milestone:
+
+```bash
+git status
+git add .
+git commit -m "type: short milestone summary"
 ```

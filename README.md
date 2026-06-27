@@ -6,35 +6,62 @@ EduGen AI is a university Generative AI final project built as a Python modular 
 
 ## Current Status
 
-This repository currently contains the project foundation, AI backend boundary, Streamlit frontend, and data engineering pipeline.
+This repository currently contains the full university project scaffold and working modules:
 
 - Streamlit application shell
-- Basic page navigation
+- Multi-page frontend
 - Configuration layer
 - Logging setup
 - Validation utilities
-- SQLite initialization skeleton
+- SQLite history storage
 - AI prompt, inference, and dataset modules
 - Data validation, splitting, metadata, and quality reporting
 - Evaluation metrics, reports, experiments, and human scoring helpers
 - Documentation structure
-- Minimal tests
+- Smoke checks and unit tests
 
-Not implemented yet:
+Still optional/future:
 
-- model download
-- fine-tuning
+- Model weight download and first real generation run
+- Fine-tuning execution
+- Presentation slides
+- Evaluation dashboard UI
 
+AI backend modules are present. Real local inference uses open-source Hugging Face models and needs the AI dependency group.
 
-AI backend modules are present, but real local inference needs optional AI dependencies.
-
-## Quick Start
+## Install
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+```
+
+Install full project extras used by this repository:
+
+```bash
+pip install -r requirements-ai.txt
+pip install -r requirements-data.txt
+pip install -r requirements-export.txt
+pip install -r requirements-evaluation.txt
+```
+
+Training extras are only needed for actual fine-tuning:
+
+```bash
+pip install -r requirements-training.txt
+```
+
+## Start The App
+
+```bash
 PYTHONPATH=src streamlit run app/streamlit_app.py
+```
+
+Open:
+
+```text
+http://localhost:8501
 ```
 
 ## Smoke Check
@@ -49,30 +76,6 @@ PYTHONPATH=src python scripts/smoke_check.py
 PYTHONPATH=src python -m unittest discover -s tests -p 'test_*.py'
 ```
 
-## Optional AI Dependencies
-
-```bash
-pip install -r requirements-ai.txt
-```
-
-Training dependencies are deferred:
-
-```bash
-pip install -r requirements-training.txt
-```
-
-PDF export is optional:
-
-```bash
-pip install -r requirements-export.txt
-```
-
-Optional richer evaluation dependencies:
-
-```bash
-pip install -r requirements-evaluation.txt
-```
-
 ## Architecture
 
 EduGen AI uses a modular monolith:
@@ -82,10 +85,14 @@ app/                 Streamlit entrypoint
 src/edugen/config/   application settings and logging
 src/edugen/core/     validation, errors, business rules
 src/edugen/ui/       Streamlit page rendering
+src/edugen/ai/       prompts, inference, data, training hooks, evaluation
 src/edugen/storage/  SQLite connection and repositories
+src/edugen/exports/  Markdown, TXT, HTML, PDF export helpers
 src/edugen/utils/    shared utility functions
+datasets/            raw, processed, split, metadata, cache, downloads
+outputs/             statistics and evaluation artifacts
 docs/                planning and project documentation
-tests/               minimal runnable checks
+tests/               runnable checks
 ```
 
 See [PROJECT_MEMORY.md](docs/PROJECT_MEMORY.md) before starting future work.
