@@ -7,6 +7,7 @@ from edugen.ai.config import GenerationConfig, ModelConfig
 from edugen.ai.data.dataset_downloader import DatasetDownloader
 from edugen.ai.data.dataset_manager import DatasetManager
 from edugen.ai.evaluation.metrics import basic_generation_metrics
+from edugen.ai.inference.engine import InferenceManager
 from edugen.ai.inference.generation_service import GenerationService
 from edugen.ai.preprocessing.cleaner import TextPreprocessor
 from edugen.ai.prompts.builder import PromptBuilder
@@ -28,6 +29,51 @@ class FakeTokenizer:
 
     def __call__(self, texts: list[str], **kwargs: object) -> dict[str, list[list[int]]]:
         return {"input_ids": [self.encode(text) for text in texts]}
+
+
+class FakeTensor:
+    def __init__(self) -> None:
+        self.moved_to = None
+
+    def to(self, device: str) -> "FakeTensor":
+        self.moved_to = device
+        return self
+
+
+class FakeBatch(dict):
+    def __init__(self) -> None:
+        super().__init__(input_ids=FakeTensor())
+
+
+class FakeTorchTokenizer:
+    def __call__(self, prompt: str, return_tensors: str) -> FakeBatch:
+        return FakeBatch()
+
+    def decode(self, output: object, skip_special_tokens: bool = True) -> str:
+        return "decoded"
+
+
+class FakeCudaModel:
+    device = "cuda:0"
+
+    def __init__(self) -> None:
+        self.received_inputs = None
+
+    def generate(self, **inputs: object) -> list[str]:
+        self.received_inputs = inputs
+        return ["tokens"]
+
+
+class FakeModelLoader:
+    def __init__(self, model: FakeCudaModel) -> None:
+        self.model = model
+
+    def load(self) -> FakeCudaModel:
+        return self.model
+
+
+class FakeTokenizerManager:
+    tokenizer = FakeTorchTokenizer()
 
 
 class AiPipelineTest(unittest.TestCase):
@@ -102,6 +148,18 @@ class AiPipelineTest(unittest.TestCase):
         self.assertEqual(metrics.output_length, 23)
         self.assertEqual(metrics.word_count, 4)
         self.assertEqual(metrics.latency_seconds, 0.5)
+
+    def test_inference_manager_moves_inputs_to_model_device(self) -> None:
+        model = FakeCudaModel()
+        manager = InferenceManager(
+            tokenizer_manager=FakeTokenizerManager(),
+            model_loader=FakeModelLoader(model),
+        )
+
+        result = manager.generate("Explain AI", GenerationConfig(max_new_tokens=4))
+
+        self.assertEqual(result, "decoded")
+        self.assertEqual(model.received_inputs["input_ids"].moved_to, "cuda:0")
 
     def test_dataset_downloader_copies_file_urls(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

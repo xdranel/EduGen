@@ -207,6 +207,7 @@ Prompt 5 implementation note: evaluation works with stdlib fallbacks. Optional r
 | 2026-06-27 | Implemented Prompt 6 final polish: deployment docs, demo workflow, reproducibility checklist, smoke script, README links, and smoke tests. |
 | 2026-06-27 | Verified final polish with 26 unit tests, compile check, smoke script, and short Streamlit launch check from `.venv`. |
 | 2026-06-27 | Updated final installation, startup, development, deployment, demo, reproducibility, and folder documentation. |
+| 2026-06-27 | Fixed CUDA/CPU inference mismatch by moving tokenizer tensors to the loaded model device before generation. |
 
 ## Problems And Blockers
 
@@ -220,6 +221,7 @@ Prompt 5 implementation note: evaluation works with stdlib fallbacks. Optional r
 | 2026-06-27 | Current assistant shell cannot import `torch` or `transformers`. | Closed | Verified `.venv` can import `torch` and `transformers`; use `.venv/bin/python` or activate `.venv`. |
 | 2026-06-27 | Matplotlib is not installed in `.venv`. | Closed | User installed `requirements-data.txt`; verified matplotlib import. |
 | 2026-06-27 | Full external evaluation metrics not installed by default. | Closed | User installed `requirements-evaluation.txt`; verified `bert_score`, `rouge_score`, `sacrebleu`, and `psutil` imports. |
+| 2026-06-27 | Generation failed when model was on CUDA and tokenized inputs were on CPU. | Closed | `InferenceManager` now moves tensor-like inputs to the model device before `model.generate()`. |
 
 ## Decision Log
 

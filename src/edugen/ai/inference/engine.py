@@ -27,7 +27,10 @@ class InferenceManager:
         tokenizer = self.tokenizer_manager.tokenizer
         model = self.model_loader.load()
 
-        inputs = tokenizer(prompt, return_tensors="pt")
+        inputs = self._move_inputs_to_model_device(
+            tokenizer(prompt, return_tensors="pt"),
+            model,
+        )
         try:
             outputs = model.generate(
                 **inputs,
@@ -43,3 +46,20 @@ class InferenceManager:
 
         _ = time.perf_counter() - started_at
         return tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+    def _move_inputs_to_model_device(self, inputs, model):
+        device = self._model_device(model)
+        if device is None:
+            return inputs
+        return {
+            name: value.to(device) if hasattr(value, "to") else value
+            for name, value in inputs.items()
+        }
+
+    def _model_device(self, model):
+        if hasattr(model, "device"):
+            return model.device
+        try:
+            return next(model.parameters()).device
+        except (AttributeError, StopIteration):
+            return None
